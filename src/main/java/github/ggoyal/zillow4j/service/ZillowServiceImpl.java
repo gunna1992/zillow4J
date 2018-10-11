@@ -1,6 +1,8 @@
 package github.ggoyal.zillow4j.service;
 
 import com.zillow._static.xsd.regionchildren.RegionchildrenResultType;
+import com.zillow._static.xsd.zestimate.ZestimateResultType;
+import com.zillow._static.xsd.zillowtypes.DetailedProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,15 +10,17 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ZillowServiceImpl implements ZillowService {
-//X1-ZWz18buiybkn4b_a6mew
 
     //http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz18buiybkn4b_a6mew&state=wa&city=seattle&childtype=neighborhood
 
-
-    private final static String GET_REGION_CHILDREN_URL = "http://www.zillow.com/webservice/GetRegionChildren.htm";
+    private final static String REGION_CHILDREN_URL = "http://www.zillow.com/webservice/GetRegionChildren.htm";
     //  private final static String GET_REGION_CHILDREN_URL = "http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz18buiybkn4b_a6mew&state=wa&city=seattle&childtype=neighborhood";
+    private final static String COMPS_URL = "http://www.zillow.com/webservice/GetDeepComps.htm";
+    private final static String ZESTIMATE_URL = "http://www.zillow.com/webservice/GetZestimate.htm";
+
     @Value("${zillow4j.zws-id}")
     private String zwsId;
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public RegionchildrenResultType.Response getRegionChildren(String regionId, String state, String county, String city, String childType) {
@@ -31,22 +35,8 @@ public class ZillowServiceImpl implements ZillowService {
         city = StringUtils.trimToNull(city);
         childType = StringUtils.trimToNull(childType);
 
-        RestTemplate restTemplate = new RestTemplate();
-//        Map<String, String> params = new HashMap<>();
-//        if (regionId != null)
-//            params.put("regionId", regionId);
-//        if (state != null)
-//            params.put("state", state);
-//        if (county != null)
-//            params.put("county", county);
-//        if (city != null)
-//            params.put("city", city);
-//        if (childType != null)
-//            params.put("childtype", childType);
-//        if (childType != null)
-//            params.put("zws-id", zwsId);
 
-        StringBuilder url = new StringBuilder(GET_REGION_CHILDREN_URL);
+        StringBuilder url = new StringBuilder(REGION_CHILDREN_URL);
         url.append("?zws-id=").append(zwsId);
         if (regionId != null)
             url.append("&regionId=").append(regionId);
@@ -66,4 +56,24 @@ public class ZillowServiceImpl implements ZillowService {
 
         return response.getResponse();
     }
+
+    @Override
+    public DetailedProperty getZestimate(Integer zpid, Boolean rentzestimate) {
+
+        if (zpid == null)
+            throw new IllegalArgumentException("At least zpid is required");
+        if (rentzestimate == null)
+            rentzestimate = false;
+
+        StringBuilder url = new StringBuilder(ZESTIMATE_URL);
+        url.append("?zws-id=").append(zwsId);
+        url.append("&zpid=").append(zpid);
+        url.append("&rentzestimate=").append(rentzestimate);
+
+        ZestimateResultType response = restTemplate.getForObject(url.toString(), ZestimateResultType.class);
+
+        return response.getResponse();
+    }
+
+
 }

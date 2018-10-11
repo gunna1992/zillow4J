@@ -5,5 +5,5 @@
 // Generated on: 2018.10.11 at 03:39:13 PM IST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.zillow.com/static/xsd/ZillowTypes.xsd")
-package com.zillow._static.xsd.zillowtypes;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.zillow.com/static/xsd/Zestimate.xsd")
+package com.zillow._static.xsd.zestimate;

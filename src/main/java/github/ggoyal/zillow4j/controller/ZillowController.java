@@ -1,6 +1,7 @@
 package github.ggoyal.zillow4j.controller;
 
 import com.zillow._static.xsd.regionchildren.RegionchildrenResultType;
+import com.zillow._static.xsd.zillowtypes.DetailedProperty;
 import github.ggoyal.zillow4j.service.ZillowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,10 @@ public class ZillowController {
 
         return "hello";
     }
-//http://localhost:8080/api/GetRegionChildren?state=wa&city=seattle&childtype=neighborhood
-    @GetMapping("/GetRegionChildren")
+
+    //http://localhost:8080/api/GetRegionChildren?state=wa&city=seattle&childtype=neighborhood
+    //http://www.zillow.com/webservice/GetComps.htm?zws-id=<ZWSID<&zpid=48749425&count=5
+    @GetMapping("/RegionChildren")
     public RegionchildrenResultType.Response getRegionChildren(@RequestParam(value = "regionId", required = false) String regionId,
                                                                @RequestParam(value = "state", required = false) String state,
                                                                @RequestParam(value = "county", required = false) String county,
@@ -30,4 +33,14 @@ public class ZillowController {
 
         return zillowService.getRegionChildren(regionId, state, county, city, childtype);
     }
+
+
+    @GetMapping("/Zestimate")
+    public DetailedProperty getZestimate(@RequestParam(value = "zpid") Integer zpid,
+                                         @RequestParam(value = "rentzestimate", required = false) Boolean rentzestimate) {
+
+        return zillowService.getZestimate(zpid, rentzestimate);
+    }
+
+
 }
