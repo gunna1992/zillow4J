@@ -6,7 +6,7 @@
 //
 
 
-package com.zillow._static.xsd.comps;
+package com.zillow._static.xsd.searchresults;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the com.zillow._static.xsd.comps package. 
+ * generated in the com.zillow._static.xsd.searchresults package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -30,50 +30,42 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.zillow._static.xsd.comps
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.zillow._static.xsd.searchresults
      * 
      */
     public ObjectFactory() {
     }
 
     /**
-     * Create an instance of {@link Comps }
+     * Create an instance of {@link Searchresults }
      * 
      */
-    public Comps createComps() {
-        return new Comps();
+    public Searchresults createSearchresults() {
+        return new Searchresults();
     }
 
     /**
-     * Create an instance of {@link Comps.Response }
+     * Create an instance of {@link Searchresults.Response }
      * 
      */
-    public Comps.Response createCompsResponse() {
-        return new Comps.Response();
+    public Searchresults.Response createSearchresultsResponse() {
+        return new Searchresults.Response();
     }
 
     /**
-     * Create an instance of {@link Comps.Response.Properties }
+     * Create an instance of {@link Searchresults.Request }
      * 
      */
-    public Comps.Response.Properties createCompsResponseProperties() {
-        return new Comps.Response.Properties();
+    public Searchresults.Request createSearchresultsRequest() {
+        return new Searchresults.Request();
     }
 
     /**
-     * Create an instance of {@link Comps.Request }
+     * Create an instance of {@link Searchresults.Response.Results }
      * 
      */
-    public Comps.Request createCompsRequest() {
-        return new Comps.Request();
-    }
-
-    /**
-     * Create an instance of {@link Comps.Response.Properties.Comparables }
-     * 
-     */
-    public Comps.Response.Properties.Comparables createCompsResponsePropertiesComparables() {
-        return new Comps.Response.Properties.Comparables();
+    public Searchresults.Response.Results createSearchresultsResponseResults() {
+        return new Searchresults.Response.Results();
     }
 
 }

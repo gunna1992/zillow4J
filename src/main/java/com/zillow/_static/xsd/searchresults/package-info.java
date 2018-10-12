@@ -5,5 +5,5 @@
 // Generated on: 2018.10.12 at 05:22:22 PM IST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.zillow.com/static/xsd/RegionChildren.xsd")
-package com.zillow._static.xsd.regionchildren;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.zillow.com/static/xsd/SearchResults.xsd")
+package com.zillow._static.xsd.searchresults;
