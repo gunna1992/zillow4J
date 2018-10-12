@@ -1,6 +1,7 @@
 package github.ggoyal.zillow4j.service;
 
 import com.zillow._static.xsd.regionchildren.RegionchildrenResultType;
+import com.zillow._static.xsd.searchresults.Searchresults;
 import com.zillow._static.xsd.zillowtypes.DetailedProperty;
 
 public interface ZillowService {
@@ -43,4 +44,5 @@ public interface ZillowService {
 
     DetailedProperty getZestimate(Integer zpid, Boolean rentzestimate);
 
+    Searchresults.Response getsearchResult(String address, String citystatezip, Boolean rentzestimate);
 }

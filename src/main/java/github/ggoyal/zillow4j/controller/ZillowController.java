@@ -1,6 +1,7 @@
 package github.ggoyal.zillow4j.controller;
 
 import com.zillow._static.xsd.regionchildren.RegionchildrenResultType;
+import com.zillow._static.xsd.searchresults.Searchresults;
 import com.zillow._static.xsd.zillowtypes.DetailedProperty;
 import github.ggoyal.zillow4j.service.ZillowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ZillowController {
 
     //http://localhost:8080/api/GetRegionChildren?state=wa&city=seattle&childtype=neighborhood
     //http://www.zillow.com/webservice/GetComps.htm?zws-id=<ZWSID<&zpid=48749425&count=5
-    @GetMapping("/RegionChildren")
+    @GetMapping("/regionChildren")
     public RegionchildrenResultType.Response getRegionChildren(@RequestParam(value = "regionId", required = false) String regionId,
                                                                @RequestParam(value = "state", required = false) String state,
                                                                @RequestParam(value = "county", required = false) String county,
@@ -43,4 +44,10 @@ public class ZillowController {
     }
 
 
+    @GetMapping("/searchResults")
+    public Searchresults.Response getSearchResult(@RequestParam(value = "address") String address,
+                                                  @RequestParam(value = "citystatezip") String citystatezip,
+                                                  @RequestParam(value = "rentzestimate", required = false) Boolean rentzestimate) {
+        return zillowService.getsearchResult(address, citystatezip, rentzestimate);
+    }
 }

@@ -1,6 +1,7 @@
 package github.ggoyal.zillow4j.service;
 
 import com.zillow._static.xsd.regionchildren.RegionchildrenResultType;
+import com.zillow._static.xsd.searchresults.Searchresults;
 import com.zillow._static.xsd.zestimate.ZestimateResultType;
 import com.zillow._static.xsd.zillowtypes.DetailedProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -14,9 +15,9 @@ public class ZillowServiceImpl implements ZillowService {
     //http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz18buiybkn4b_a6mew&state=wa&city=seattle&childtype=neighborhood
 
     private final static String REGION_CHILDREN_URL = "http://www.zillow.com/webservice/GetRegionChildren.htm";
-    //  private final static String GET_REGION_CHILDREN_URL = "http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz18buiybkn4b_a6mew&state=wa&city=seattle&childtype=neighborhood";
     private final static String COMPS_URL = "http://www.zillow.com/webservice/GetDeepComps.htm";
     private final static String ZESTIMATE_URL = "http://www.zillow.com/webservice/GetZestimate.htm";
+    private final static String SEARCH_RESULTS = "https://www.zillow.com/webservice/GetSearchResults.htm";
 
     @Value("${zillow4j.zws-id}")
     private String zwsId;
@@ -53,7 +54,6 @@ public class ZillowServiceImpl implements ZillowService {
         RegionchildrenResultType response = restTemplate.getForObject(url.toString(),
                 RegionchildrenResultType.class);
 
-
         return response.getResponse();
     }
 
@@ -75,5 +75,27 @@ public class ZillowServiceImpl implements ZillowService {
         return response.getResponse();
     }
 
+    @Override
+    public Searchresults.Response getsearchResult(String address, String citystatezip, Boolean rentzestimate) {
+
+        if (address == null && citystatezip == null) {
+
+            throw new IllegalArgumentException("at least address or citystatezip is required");
+
+        }
+        if (rentzestimate == null)
+            rentzestimate = false;
+
+        StringBuilder url = new StringBuilder(SEARCH_RESULTS);
+        url.append("?zws-id=").append(zwsId);
+        url.append("&address=").append(address);
+        url.append("&citystatezip=").append(citystatezip);
+        url.append("&rentzestimate=").append(rentzestimate);
+
+        Searchresults response = restTemplate.getForObject(url.toString(), Searchresults.class);
+        return response.getResponse();
+
+
+    }
 
 }
