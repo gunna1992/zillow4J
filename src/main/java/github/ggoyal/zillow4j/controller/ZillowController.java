@@ -48,6 +48,6 @@ public class ZillowController {
     public Searchresults.Response getSearchResult(@RequestParam(value = "address") String address,
                                                   @RequestParam(value = "citystatezip") String citystatezip,
                                                   @RequestParam(value = "rentzestimate", required = false) Boolean rentzestimate) {
-        return zillowService.getsearchResult(address, citystatezip, rentzestimate);
+        return zillowService.getSearchResult(address, citystatezip, rentzestimate);
     }
 }

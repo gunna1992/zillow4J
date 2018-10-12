@@ -4,10 +4,13 @@ import com.zillow._static.xsd.regionchildren.RegionchildrenResultType;
 import com.zillow._static.xsd.searchresults.Searchresults;
 import com.zillow._static.xsd.zestimate.ZestimateResultType;
 import com.zillow._static.xsd.zillowtypes.DetailedProperty;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URLEncoder;
+
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 
 @Service
 public class ZillowServiceImpl implements ZillowService {
@@ -26,15 +29,15 @@ public class ZillowServiceImpl implements ZillowService {
     @Override
     public RegionchildrenResultType.Response getRegionChildren(String regionId, String state, String county, String city, String childType) {
         //   At least regionId or state is required
-        regionId = StringUtils.trimToNull(regionId);
-        state = StringUtils.trimToNull(state);
+        regionId = trimToNull(regionId);
+        state = trimToNull(state);
 
         if (regionId == null && state == null)
             throw new IllegalArgumentException("At least regionId or state is required");
 
-        county = StringUtils.trimToNull(county);
-        city = StringUtils.trimToNull(city);
-        childType = StringUtils.trimToNull(childType);
+        county = trimToNull(county);
+        city = trimToNull(city);
+        childType = trimToNull(childType);
 
 
         StringBuilder url = new StringBuilder(REGION_CHILDREN_URL);
@@ -76,20 +79,30 @@ public class ZillowServiceImpl implements ZillowService {
     }
 
     @Override
-    public Searchresults.Response getsearchResult(String address, String citystatezip, Boolean rentzestimate) {
+    public Searchresults.Response getSearchResult(String address, String citystatezip, Boolean rentzestimate) {
 
-        if (address == null && citystatezip == null) {
+        address = trimToNull(address);
+        citystatezip = trimToNull(citystatezip);
+
+        if (address == null || citystatezip == null) {
 
             throw new IllegalArgumentException("at least address or citystatezip is required");
 
         }
+
+        if (citystatezip != null)
+            citystatezip = URLEncoder.encode(citystatezip);
+        if (address != null)
+            address = URLEncoder.encode(address);
         if (rentzestimate == null)
             rentzestimate = false;
 
         StringBuilder url = new StringBuilder(SEARCH_RESULTS);
         url.append("?zws-id=").append(zwsId);
-        url.append("&address=").append(address);
-        url.append("&citystatezip=").append(citystatezip);
+        if (address != null)
+            url.append("&address=").append(address);
+        if (citystatezip != null)
+            url.append("&citystatezip=").append(citystatezip);
         url.append("&rentzestimate=").append(rentzestimate);
 
         Searchresults response = restTemplate.getForObject(url.toString(), Searchresults.class);

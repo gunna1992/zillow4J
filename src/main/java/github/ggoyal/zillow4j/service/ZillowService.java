@@ -44,5 +44,11 @@ public interface ZillowService {
 
     DetailedProperty getZestimate(Integer zpid, Boolean rentzestimate);
 
-    Searchresults.Response getsearchResult(String address, String citystatezip, Boolean rentzestimate);
+    /**
+     * @param address
+     * @param citystatezip
+     * @param rentzestimate
+     * @return
+     */
+    Searchresults.Response getSearchResult(String address, String citystatezip, Boolean rentzestimate);
 }
